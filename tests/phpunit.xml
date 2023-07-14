@@ -5,6 +5,7 @@
             <directory>../src/Cloth</directory>
         </include>
         <exclude>
+            <file>../src/Cloth/Option.php</file>
         </exclude>
     </coverage>
 </phpunit>
