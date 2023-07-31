@@ -382,4 +382,34 @@ class SchemaTest extends TestCase
         $expected = ["hostname", "password", "username"];
         $this->assertSame($expected, $obj->getParameterNames());
     }
+
+    /**
+     * @covers ::__construct
+     * @covers ::parse
+     */
+    public function testParseSuccess(): void
+    {
+        $obj      = $this->createTestObject();
+        $result   = $obj->parse(["xxxx", "-u", "root", "-h", "localhost", "yyyy"]);
+        $expected = [
+            "help"     => false,
+            "list"     => false,
+            "version"  => false,
+            "hostname" => "localhost",
+            "password" => null,
+            "username" => "root",
+        ];
+        $this->assertSame($expected, $result->getOptionsAsArray());
+        $this->assertSame(["xxxx", "yyyy"], $result->getArgs());
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::parse
+     */
+    public function testParseFail(): void
+    {
+        $this->expectException(ParseException::class);
+        $this->createTestObject()->parse(["xxxx", "--undefined-opt"]);
+    }
 }

@@ -321,4 +321,17 @@ class Schema
     {
         return $this->getNamesByArray($this->paramNames);
     }
+
+    /**
+     * 指定されたコマンドライン引数を解析し、結果を OptionSet として返します。
+     * もしもこの Schema の定義に合わないオプションが指定された場合は ParseException をスローします。
+     *
+     * @param array $args
+     * @return OptionSet
+     * @throws ParseException 不正なコマンドライン引数が指定された場合
+     */
+    public function parse(array $args): OptionSet
+    {
+        return (new Context($args))->parse($this);
+    }
 }
